@@ -1,23 +1,23 @@
-# 👋 Hi, I'm Arya Vallencia
+#  Hi, I'm Arya Vallencia
 
 Frontend Web Developer focused on building clean, simple, and meaningful web experiences.  
 I learn by building, breaking things, and refining them step by step.
 
 ---
 
-## 🧠 About Me
+##  About Me
 
-- 💻 Frontend Developer (Learner)
-- 🌐 Interested in Web Development, UI/UX, and JavaScript
-- 🧩 Love turning ideas into small, functional projects
-- 🚀 Mindset: *build → break → learn → repeat*
+-  Frontend Developer (Learner)
+-  Interested in Web Development, UI/UX, and JavaScript
+-  Love turning ideas into small, functional projects
+-  Mindset: *build → break → learn → repeat*
 
 > Legal name: **Aryana**  
 > Professional name: **Arya Vallencia**
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -28,7 +28,7 @@ I learn by building, breaking things, and refining them step by step.
 
 ---
 
-## 📦 Featured Projects
+##  Featured Projects
 
 - **LingoFlow** — language-focused web experiment  
 - **ArPorto** — personal web portfolio  
@@ -38,14 +38,15 @@ I learn by building, breaking things, and refining them step by step.
 
 ---
 
-## 📊 GitHub Stats
+##  GitHub Stats
 
 ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=AryaXzell&show_icons=true&theme=tokyonight&hide_border=true)
 ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=AryaXzell&layout=compact&theme=tokyonight&hide_border=true)
 
+> *I'm a student, and maybe my projects are still small.* 
 ---
 
-## 🌍 Connect With Me
+##  Connect With Me
 
 -  Instagram: [@aryaxzell](https://www.instagram.com/aryaxzell)
 -  TikTok: [@aito.bushimaru](https://www.tiktok.com/@aito.bushimaru)
