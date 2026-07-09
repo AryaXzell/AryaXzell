@@ -1,26 +1,29 @@
 import { Code2, Compass, Layout, Cpu } from "lucide-react";
+import { useLanguage } from "../LanguageContext";
 
 export default function About() {
+  const { t } = useLanguage();
+
   const pillars = [
     {
       icon: <Code2 className="text-apple-blue" size={20} />,
-      title: "Utility Focused",
-      desc: "I love building software that solves real, practical problems. If a tool doesn't make a workflow easier or safer, it doesn't need to exist.",
+      title: t("about_pillar_1_title"),
+      desc: t("about_pillar_1_desc"),
     },
     {
       icon: <Layout className="text-apple-blue" size={20} />,
-      title: "Minimal Design",
-      desc: "Great design is as little design as possible. Inspired by Apple's Human Interface Guidelines, I focus on clean typography, generous spacing, and solid readability.",
+      title: t("about_pillar_2_title"),
+      desc: t("about_pillar_2_desc"),
     },
     {
       icon: <Cpu className="text-apple-blue" size={20} />,
-      title: "Clean Performance",
-      desc: "Web apps should load instantly and run buttery-smooth, even on lower-end devices. I strive to optimize bundle size, avoid unnecessary libraries, and use robust native APIs.",
+      title: t("about_pillar_3_title"),
+      desc: t("about_pillar_3_desc"),
     },
     {
       icon: <Compass className="text-apple-blue" size={20} />,
-      title: "Browser-Only Security",
-      desc: "I care deeply about data privacy. Whenever possible, processing (extracting files, looking up client-side statistics) is done entirely on the client side, keeping data strictly local.",
+      title: t("about_pillar_4_title"),
+      desc: t("about_pillar_4_desc"),
     },
   ];
 
@@ -31,7 +34,7 @@ export default function About() {
     >
       <div className="max-w-4xl mx-auto space-y-16">
         {/* Editorial Heading with Live GitHub Avatar */}
-        <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-5 text-center sm:text-left">
+        <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-5 rtl:space-x-reverse text-center sm:text-left rtl:sm:text-right">
           <img
             src="https://github.com/AryaXzell.png"
             alt="Arya"
@@ -40,7 +43,7 @@ export default function About() {
           />
           <div className="space-y-1.5">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              About Arya
+              {t("about_title")}
             </h2>
             <div className="h-1 w-12 bg-apple-blue rounded-full mx-auto sm:mx-0" />
           </div>
@@ -50,40 +53,40 @@ export default function About() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-start">
           <div className="md:col-span-3 space-y-6 text-gray-600 dark:text-zinc-300 text-sm sm:text-base leading-relaxed">
             <p>
-              I am a <strong className="text-gray-950 dark:text-white font-medium">Student Developer</strong> with a deep passion for coding, building practical web tools, and exploring the mechanics of the internet. For me, software is about empowering people to solve problems quickly without unnecessary clutter.
+              {t("about_intro_p1")}
             </p>
             <p>
-              My coding journey revolves around creating beautiful, lightweight, and accessible user interfaces. I love building tools that run entirely in the browser, bypassing complex server hops and keeping sensitive developer details (like API tokens or private codebases) completely secure.
+              {t("about_intro_p2")}
             </p>
             <p>
-              Beyond technical logic, I am obsessed with human-centered aesthetics. I believe that digital workspaces should be quiet, clean, and focus-friendly. I build with React, TypeScript, and modern styling utilities to achieve exactly that.
+              {t("about_intro_p3")}
             </p>
           </div>
 
           <div className="md:col-span-2 bg-gray-50 dark:bg-zinc-900/50 p-6 rounded-2xl border border-gray-100 dark:border-zinc-800 space-y-4">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500">
-              Technical Interests
+              {t("about_interests_title")}
             </h3>
             <ul className="space-y-2.5 text-xs sm:text-sm text-gray-700 dark:text-zinc-300 font-medium">
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full" />
-                <span>Single-Page Architectures & Vite</span>
+              <li className="flex items-center space-x-2 rtl:space-x-reverse">
+                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full shrink-0" />
+                <span>{t("about_interest_1")}</span>
               </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full" />
-                <span>Browser APIs & Client-Side Extraction</span>
+              <li className="flex items-center space-x-2 rtl:space-x-reverse">
+                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full shrink-0" />
+                <span>{t("about_interest_2")}</span>
               </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full" />
-                <span>Privacy-First State & Storage Management</span>
+              <li className="flex items-center space-x-2 rtl:space-x-reverse">
+                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full shrink-0" />
+                <span>{t("about_interest_3")}</span>
               </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full" />
-                <span>Web Geolocation & Interactive Map Frameworks</span>
+              <li className="flex items-center space-x-2 rtl:space-x-reverse">
+                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full shrink-0" />
+                <span>{t("about_interest_4")}</span>
               </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full" />
-                <span>Apple HIG (Human Interface Guidelines) Design</span>
+              <li className="flex items-center space-x-2 rtl:space-x-reverse">
+                <span className="w-1.5 h-1.5 bg-apple-blue rounded-full shrink-0" />
+                <span>{t("about_interest_5")}</span>
               </li>
             </ul>
           </div>
@@ -112,3 +115,4 @@ export default function About() {
     </section>
   );
 }
+
