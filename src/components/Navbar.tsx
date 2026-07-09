@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, ArrowUpRight } from "lucide-react";
+import { Sun, Moon, Menu, X, ArrowUpRight, Languages, Check } from "lucide-react";
+import { useLanguage } from "../LanguageContext";
+import { languages } from "../locales";
+import { AnimatePresence, motion } from "motion/react";
+import LanguageIcon from "./LanguageIcon";
 
 interface NavbarProps {
   darkMode: boolean;
@@ -10,13 +14,15 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const { language, setLanguage, t, currentLangConfig } = useLanguage();
 
   const navItems = [
-    { id: "hero", label: "Overview" },
-    { id: "about", label: "About" },
-    { id: "projects", label: "Projects" },
-    { id: "skills", label: "Skills" },
-    { id: "contact", label: "Contact" },
+    { id: "hero", label: t("nav_overview") },
+    { id: "about", label: t("nav_about") },
+    { id: "projects", label: t("nav_projects") },
+    { id: "skills", label: t("nav_skills") },
+    { id: "contact", label: t("nav_contact") },
   ];
 
   useEffect(() => {
@@ -38,7 +44,21 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [language]); // Re-run tracker if navigation labels change translation
+
+  // Click outside listener for language picker
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("#lang-picker-container")) {
+        setLangMenuOpen(false);
+      }
+    };
+    if (langMenuOpen) {
+      document.addEventListener("click", handleClickOutside);
+    }
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [langMenuOpen]);
 
   const handleNavClick = (id: string) => {
     setMobileMenuOpen(false);
@@ -69,7 +89,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
         {/* Logo/Name */}
         <button
           onClick={() => handleNavClick("hero")}
-          className="flex items-center space-x-2 text-lg font-semibold tracking-tight hover:opacity-80 transition-opacity cursor-pointer group"
+          className="flex items-center space-x-2 rtl:space-x-reverse text-lg font-semibold tracking-tight hover:opacity-80 transition-opacity cursor-pointer group"
           id="nav-logo"
         >
           <span className="w-2.5 h-2.5 rounded-full bg-apple-blue group-hover:scale-125 transition-transform" />
@@ -77,7 +97,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1" id="nav-desktop">
+        <nav className="hidden md:flex items-center space-x-1 rtl:space-x-reverse" id="nav-desktop">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -94,7 +114,66 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
         </nav>
 
         {/* Right side controls */}
-        <div className="flex items-center space-x-3" id="nav-controls">
+        <div className="flex items-center space-x-3 rtl:space-x-reverse" id="nav-controls">
+          
+          {/* Custom Language Picker (on the left of theme switcher) */}
+          <div className="relative" id="lang-picker-container">
+            <button
+              onClick={() => setLangMenuOpen(!langMenuOpen)}
+              className="flex items-center space-x-1.5 rtl:space-x-reverse px-2.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:bg-gray-100 dark:text-zinc-300 dark:hover:bg-zinc-850 transition-all border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer shadow-3xs"
+              aria-label="Change language"
+              id="lang-toggle-btn"
+            >
+              <LanguageIcon code={currentLangConfig.code} className="w-4 h-4 shadow-3xs" />
+              <span className="uppercase text-[10px] tracking-wider font-mono font-bold">{currentLangConfig.code}</span>
+            </button>
+
+            {/* Custom Dropdown Dialog with animation */}
+            <AnimatePresence>
+              {langMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="absolute top-12 ltr:right-0 rtl:left-0 z-50 w-48 py-1.5 bg-white/95 dark:bg-zinc-950/95 border border-gray-200 dark:border-zinc-850 rounded-2xl shadow-lg backdrop-blur-md"
+                  id="lang-dropdown-menu"
+                >
+                  <div className="px-3 py-1.5 border-b border-gray-100 dark:border-zinc-900 flex items-center space-x-1.5 rtl:space-x-reverse">
+                    <Languages size={12} className="text-apple-blue" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500">
+                      Select Language
+                    </span>
+                  </div>
+                  <div className="py-1">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          setLanguage(lang.code);
+                          setLangMenuOpen(false);
+                        }}
+                        className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium transition-colors cursor-pointer text-left rtl:text-right ${
+                          language === lang.code
+                            ? "bg-gray-50 text-apple-blue dark:bg-zinc-900/50 dark:text-blue-400"
+                            : "text-gray-600 hover:bg-gray-100 dark:text-zinc-300 dark:hover:bg-zinc-900"
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                          <LanguageIcon code={lang.code} className="w-4 h-4 shadow-3xs" />
+                          <span>{lang.name}</span>
+                        </div>
+                        {language === lang.code && (
+                          <Check size={13} className="text-apple-blue dark:text-blue-400 shrink-0" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           {/* Theme toggle */}
           <button
             onClick={() => setDarkMode(!darkMode)}
@@ -110,10 +189,10 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
             href="https://github.com/AryaXzell"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:flex items-center space-x-1 px-4 py-2 text-xs font-medium bg-gray-900 text-white rounded-full hover:bg-black dark:bg-gray-50 dark:text-gray-950 dark:hover:bg-white transition-all shadow-xs"
+            className="hidden sm:flex items-center space-x-1 rtl:space-x-reverse px-4 py-2 text-xs font-medium bg-gray-900 text-white rounded-full hover:bg-black dark:bg-gray-50 dark:text-gray-950 dark:hover:bg-white transition-all shadow-xs"
             id="nav-github-link"
           >
-            <span>GitHub</span>
+            <span>{t("nav_github")}</span>
             <ArrowUpRight size={13} className="opacity-65" />
           </a>
 
@@ -138,11 +217,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
             <button
               key={item.id}
               onClick={() => handleNavClick(item.id)}
-              className={`text-left py-3 text-sm font-medium border-b border-gray-100 dark:border-zinc-900 cursor-pointer ${
-                activeSection === item.id
-                  ? "text-apple-blue"
-                  : "text-gray-600 dark:text-zinc-300"
-              }`}
+              className="text-left rtl:text-right py-3 text-sm font-medium border-b border-gray-100 dark:border-zinc-900 cursor-pointer text-gray-600 dark:text-zinc-300 active:text-apple-blue"
             >
               {item.label}
             </button>
@@ -151,9 +226,9 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
             href="https://github.com/AryaXzell"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center space-x-1.5 py-3 mt-2 bg-gray-900 text-white dark:bg-gray-50 dark:text-gray-950 rounded-lg text-sm font-medium"
+            className="flex items-center justify-center space-x-1.5 rtl:space-x-reverse py-3 mt-2 bg-gray-900 text-white dark:bg-gray-50 dark:text-gray-950 rounded-lg text-sm font-medium"
           >
-            <span>Visit GitHub Profile</span>
+            <span>{t("nav_visit_github")}</span>
             <ArrowUpRight size={16} />
           </a>
         </div>
@@ -161,3 +236,4 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
     </header>
   );
 }
+
