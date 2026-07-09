@@ -12,15 +12,27 @@ import ProjectChooser from "./components/ProjectChooser";
 import { projectsData } from "./data";
 import { Project } from "./types";
 import { Layers } from "lucide-react";
+import { useLanguage } from "./LanguageContext";
 
 export default function App() {
+  const { t } = useLanguage();
   const [darkMode, setDarkMode] = useState<boolean>(() => {
-    // Detect system preference or saved preference
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      return savedTheme === "dark";
+    try {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        return savedTheme === "dark";
+      }
+    } catch (e) {
+      console.warn("Storage access restricted for theme, detecting system fallback. Error:", e);
     }
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    try {
+      if (window.matchMedia) {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+    } catch (e) {
+      console.warn("System preferences matchMedia restricted. Error:", e);
+    }
+    return false;
   });
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -31,10 +43,18 @@ export default function App() {
     const root = window.document.documentElement;
     if (darkMode) {
       root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      try {
+        localStorage.setItem("theme", "dark");
+      } catch (e) {
+        console.warn("Storage save restricted for theme dark. Error:", e);
+      }
     } else {
       root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      try {
+        localStorage.setItem("theme", "light");
+      } catch (e) {
+        console.warn("Storage save restricted for theme light. Error:", e);
+      }
     }
   }, [darkMode]);
 
@@ -63,6 +83,43 @@ export default function App() {
     setSelectedProject(null);
   };
 
+  // Helper to dynamically localize project data
+  const getLocalizedProject = (project: Project): Project => {
+    if (project.id === "zip2git") {
+      return {
+        ...project,
+        tagline: t("project_zip2git_tagline"),
+        description: t("project_zip2git_desc"),
+        detailedDescription: t("project_zip2git_detailed") || project.detailedDescription,
+        caseStudy: {
+          why: t("project_zip2git_case_why"),
+          problem: t("project_zip2git_case_problem"),
+          solution: t("project_zip2git_case_solution"),
+          challenges: t("project_zip2git_case_challenges"),
+          result: t("project_zip2git_case_result"),
+        }
+      };
+    }
+    if (project.id === "ipscope") {
+      return {
+        ...project,
+        tagline: t("project_ipscope_tagline"),
+        description: t("project_ipscope_desc"),
+        detailedDescription: t("project_ipscope_detailed") || project.detailedDescription,
+        caseStudy: {
+          why: t("project_ipscope_case_why"),
+          problem: t("project_ipscope_case_problem"),
+          solution: t("project_ipscope_case_solution"),
+          challenges: t("project_ipscope_case_challenges"),
+          result: t("project_ipscope_case_result"),
+        }
+      };
+    }
+    return project;
+  };
+
+  const localizedProjects = projectsData.map(getLocalizedProject);
+
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-black text-gray-900 dark:text-gray-100 transition-colors duration-300">
       {/* Navigation Header */}
@@ -86,20 +143,20 @@ export default function App() {
         >
           <div className="max-w-4xl mx-auto space-y-16">
             {/* Title / Header */}
-            <div className="text-center md:text-left space-y-3">
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 flex items-center justify-center md:justify-start space-x-2">
-                <Layers size={22} className="text-apple-blue" />
-                <span>Featured Projects</span>
+            <div className="text-center md:text-left rtl:md:text-right space-y-3">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 flex items-center justify-center md:justify-start rtl:md:justify-start space-x-2 rtl:space-x-reverse">
+                <Layers size={22} className="text-apple-blue shrink-0" />
+                <span>{t("projects_title")}</span>
               </h2>
               <p className="text-xs sm:text-sm text-gray-500 dark:text-zinc-400">
-                Tap on any project card to open website, repository or read detailed specifications
+                {t("projects_subtitle")}
               </p>
               <div className="h-1 w-12 bg-apple-blue rounded-full mx-auto md:mx-0 mt-3" />
             </div>
 
             {/* Featured Projects Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8" id="featured-projects-grid">
-              {projectsData.map((project) => (
+              {localizedProjects.map((project) => (
                 <ProjectCard
                   key={project.id}
                   project={project}
@@ -125,7 +182,7 @@ export default function App() {
 
       {/* Custom action sheet drawer for project action selections */}
       <ProjectChooser
-        project={selectedProject}
+        project={selectedProject ? getLocalizedProject(selectedProject) : null}
         onClose={handleCloseChooser}
         showDetails={showDetails}
         setShowDetails={setShowDetails}
@@ -133,3 +190,4 @@ export default function App() {
     </div>
   );
 }
+
