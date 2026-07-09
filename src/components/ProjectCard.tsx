@@ -1,6 +1,7 @@
 import { ArrowUpRight, Github, ExternalLink, Sparkles, Calendar, Activity } from "lucide-react";
 import { Project } from "../types";
 import { Zip2GitMockup, IPScopeMockup } from "./ProjectMockups";
+import { useLanguage } from "../LanguageContext";
 
 interface ProjectCardProps {
   key?: string;
@@ -9,6 +10,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
+  const { t } = useLanguage();
   
   // Render the appropriate high-fidelity mockup
   const renderMockup = () => {
@@ -34,6 +36,18 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
       default:
         return "bg-gray-50 text-gray-700 border-gray-200";
     }
+  };
+
+  const getStatusLabel = (status: string) => {
+    if (status === "Live") return t("project_status_live");
+    if (status === "Experimental") return t("project_status_experimental");
+    if (status === "Archived") return t("project_status_archived");
+    return status;
+  };
+
+  const getBadgeLabel = (badge: string) => {
+    if (badge === "Privacy-First") return t("project_badge_privacy");
+    return badge;
   };
 
   return (
@@ -62,24 +76,24 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
         <div className="space-y-3">
           {/* Metadata Row: Status, Date & Highlight badge */}
           <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-medium text-gray-500 dark:text-zinc-400">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 rtl:space-x-reverse">
               {/* Status Badge */}
-              <span className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded border text-[9px] font-bold ${getStatusStyle(project.status)}`}>
+              <span className={`inline-flex items-center space-x-1 rtl:space-x-reverse px-2 py-0.5 rounded border text-[9px] font-bold ${getStatusStyle(project.status)}`}>
                 <span className="w-1.2 h-1.2 rounded-full bg-current" />
-                <span>{project.status}</span>
+                <span>{getStatusLabel(project.status)}</span>
               </span>
 
               {/* Date Metadata */}
-              <span className="flex items-center space-x-1">
+              <span className="flex items-center space-x-1 rtl:space-x-reverse">
                 <Calendar size={11} className="text-gray-400" />
                 <span>{project.latestUpdate}</span>
               </span>
             </div>
 
             {project.highlightBadge && (
-              <span className="flex items-center space-x-1 px-2 py-0.5 text-[9px] font-bold bg-apple-blue/5 text-apple-blue dark:bg-apple-blue/10 dark:text-blue-400 rounded-md">
+              <span className="flex items-center space-x-1 rtl:space-x-reverse px-2 py-0.5 text-[9px] font-bold bg-apple-blue/5 text-apple-blue dark:bg-apple-blue/10 dark:text-blue-400 rounded-md">
                 <Sparkles size={8} />
-                <span>{project.highlightBadge}</span>
+                <span>{getBadgeLabel(project.highlightBadge)}</span>
               </span>
             )}
           </div>
@@ -88,7 +102,7 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
           <div className="space-y-1">
             <h3 className="text-lg font-bold text-gray-950 dark:text-gray-50 flex items-center group-hover:text-apple-blue transition-colors">
               <span>{project.name}</span>
-              <ArrowUpRight size={16} className="ml-1 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              <ArrowUpRight size={16} className="ml-1 rtl:mr-1 rtl:ml-0 rtl:rotate-270 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5 transition-all" />
             </h3>
             <p className="text-xs font-semibold text-gray-400 dark:text-zinc-500">
               {project.tagline}
@@ -116,11 +130,11 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
 
           {/* Action button simulator */}
           <div className="pt-2 border-t border-gray-100/60 dark:border-zinc-900/60 flex items-center justify-between text-xs font-semibold text-apple-blue group-hover:underline">
-            <span className="flex items-center space-x-1.5">
+            <span className="flex items-center space-x-1.5 rtl:space-x-reverse">
               <Activity size={12} />
-              <span>Explore Action Options</span>
+              <span>{t("project_explore_options")}</span>
             </span>
-            <div className="flex items-center space-x-2 text-gray-400">
+            <div className="flex items-center space-x-2 rtl:space-x-reverse text-gray-400">
               <ExternalLink size={13} />
               <Github size={13} />
             </div>
