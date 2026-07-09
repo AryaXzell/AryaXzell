@@ -30,8 +30,8 @@ I learn by building, breaking things, and refining them step by step.
 
 ##  Featured Projects
 
-- **LingoFlow** — language-focused web experiment  
-- **ArPorto** — personal web portfolio  
+- **IPscope** — IP Intelligence, Simplified.  
+- **Zip2Git** — from zip to git
 - **AR4UPLOAD** — simple web-based file sharing
 
 > More projects coming soon as I continue learning and experimenting.
