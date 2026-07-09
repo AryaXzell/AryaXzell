@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Star, GitFork, BookOpen, ExternalLink, RefreshCw } from "lucide-react";
 import { GitHubRepo } from "../types";
+import { useLanguage } from "../LanguageContext";
 
 export default function OtherRepos() {
+  const { t, language } = useLanguage();
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -12,7 +14,7 @@ export default function OtherRepos() {
     {
       id: 101,
       name: "personal-web",
-      description: "My minimal developer portfolio styled with human-centric interfaces, optimized for accessibility and low bandwidth.",
+      description: t("repo_personal_desc"),
       html_url: "https://github.com/AryaXzell/personal-web",
       stargazers_count: 3,
       language: "TypeScript",
@@ -21,7 +23,7 @@ export default function OtherRepos() {
     {
       id: 102,
       name: "awesome-tools",
-      description: "A hand-curated collection of browser-only scripts and local tools that bypass traditional backend databases.",
+      description: t("repo_awesome_desc"),
       html_url: "https://github.com/AryaXzell/awesome-tools",
       stargazers_count: 5,
       language: "JavaScript",
@@ -30,7 +32,7 @@ export default function OtherRepos() {
     {
       id: 103,
       name: "vite-pwa-template",
-      description: "A production-ready Vite and React template for progressive web apps, complete with offline fallback strategies.",
+      description: t("repo_pwa_desc"),
       html_url: "https://github.com/AryaXzell/vite-pwa-template",
       stargazers_count: 4,
       language: "TypeScript",
@@ -60,7 +62,7 @@ export default function OtherRepos() {
             .map((repo: any) => ({
               id: repo.id,
               name: repo.name,
-              description: repo.description || "No description provided.",
+              description: repo.description || t("repo_no_description"),
               html_url: repo.html_url,
               stargazers_count: repo.stargazers_count,
               language: repo.language || "Web",
@@ -81,16 +83,16 @@ export default function OtherRepos() {
     };
 
     fetchGitHubRepos();
-  }, []);
+  }, [language]);
 
   return (
     <div className="space-y-6 pt-10 border-t border-gray-100 dark:border-zinc-900" id="other-repositories">
-      <div className="text-center sm:text-left">
+      <div className="text-center sm:text-left rtl:sm:text-right">
         <h3 className="text-sm font-semibold uppercase tracking-widest text-gray-400 dark:text-zinc-500">
-          Other Projects & Contributions
+          {t("projects_other_title")}
         </h3>
         <p className="text-xs text-gray-500 dark:text-zinc-400 mt-1">
-          Direct from my public GitHub repositories feed
+          {t("projects_other_subtitle")}
         </p>
       </div>
 
@@ -120,16 +122,16 @@ export default function OtherRepos() {
               className="group p-5 rounded-2xl bg-gray-50/50 hover:bg-gray-100/50 dark:bg-zinc-900/20 dark:hover:bg-zinc-900/40 border border-gray-100 dark:border-zinc-900 transition-all flex flex-col justify-between hover:scale-[1.01] active:scale-[0.99] h-full"
               id={`repo-card-${repo.id}`}
             >
-              <div className="space-y-2">
+              <div className="space-y-2 text-left rtl:text-right">
                 {/* Header */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-1.5 text-gray-700 dark:text-zinc-300">
-                    <BookOpen size={13} className="text-apple-blue" />
+                  <div className="flex items-center space-x-1.5 rtl:space-x-reverse text-gray-700 dark:text-zinc-300">
+                    <BookOpen size={13} className="text-apple-blue shrink-0" />
                     <span className="text-xs font-bold truncate group-hover:text-apple-blue transition-colors">
                       {repo.name}
                     </span>
                   </div>
-                  <ExternalLink size={11} className="text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <ExternalLink size={11} className="text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity rtl:rotate-270 shrink-0" />
                 </div>
 
                 {/* Description */}
@@ -140,17 +142,17 @@ export default function OtherRepos() {
 
               {/* Stats & Tech */}
               <div className="flex items-center justify-between text-[10px] font-mono text-gray-400 dark:text-zinc-500 pt-3 border-t border-gray-100/50 dark:border-zinc-900/50 mt-4">
-                <span className="flex items-center space-x-1">
-                  <span className="w-1.5 h-1.5 bg-apple-blue rounded-full" />
+                <span className="flex items-center space-x-1 rtl:space-x-reverse">
+                  <span className="w-1.5 h-1.5 bg-apple-blue rounded-full shrink-0" />
                   <span>{repo.language}</span>
                 </span>
 
-                <div className="flex items-center space-x-2.5">
-                  <span className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2.5 rtl:space-x-reverse">
+                  <span className="flex items-center space-x-1 rtl:space-x-reverse">
                     <Star size={11} />
                     <span>{repo.stargazers_count}</span>
                   </span>
-                  <span className="flex items-center space-x-1">
+                  <span className="flex items-center space-x-1 rtl:space-x-reverse">
                     <GitFork size={11} />
                     <span>{repo.forks_count}</span>
                   </span>
