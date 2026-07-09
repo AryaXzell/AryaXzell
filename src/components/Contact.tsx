@@ -13,8 +13,10 @@ import {
   Pin,
   Globe
 } from "lucide-react";
+import { useLanguage } from "../LanguageContext";
 
 export default function Contact() {
+  const { t, language } = useLanguage();
   const [message, setMessage] = useState("");
   const [draftCopied, setDraftCopied] = useState(false);
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
@@ -37,30 +39,30 @@ export default function Contact() {
   const directChannels = [
     {
       id: "github",
-      name: "GitHub Profile",
+      name: t("channel_github"),
       handle: "@AryaXzell",
       url: "https://github.com/AryaXzell",
       icon: <Github size={15} />,
       colorClass: "text-gray-800 dark:text-zinc-200 bg-gray-50 dark:bg-zinc-900 border-gray-200 dark:border-zinc-800",
-      actionLabel: "Open Profile"
+      actionLabel: t("action_open_profile")
     },
     {
       id: "telegram",
-      name: "Telegram Handle",
+      name: t("channel_telegram"),
       handle: "@aryaxzell",
       url: "https://t.me/aryaxzell",
-      icon: <Send size={14} className="rotate-[-25deg] translate-x-[-1px] translate-y-[0.5px]" />,
+      icon: <Send size={14} className="rotate-[-25deg] translate-x-[-1px] translate-y-[0.5px] rtl:rotate-250" />,
       colorClass: "text-sky-500 bg-sky-50 dark:bg-sky-950/30 border-sky-100 dark:border-sky-900/50",
-      actionLabel: "Open Chat"
+      actionLabel: t("action_open_chat")
     },
     {
       id: "whatsapp",
-      name: "WhatsApp",
+      name: t("channel_whatsapp"),
       handle: "@AryaXzell",
-      url: "https://wa.me/6283853532520", // Indonesia template or blank wa.me
+      url: "https://wa.me/628123456789", // Indonesia template or blank wa.me
       icon: <MessageCircle size={15} />,
       colorClass: "text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 border-emerald-100 dark:border-emerald-900/50",
-      actionLabel: "Chat on WhatsApp"
+      actionLabel: t("action_chat_whatsapp")
     }
   ];
 
@@ -121,10 +123,10 @@ export default function Contact() {
         {/* Title */}
         <div className="text-center space-y-2">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-            Get in Touch
+            {t("contact_title")}
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-zinc-400">
-            Let's connect, collaborate, or discuss technical implementations.
+            {t("contact_subtitle")}
           </p>
           <div className="h-1 w-12 bg-apple-blue rounded-full mx-auto mt-4" />
         </div>
@@ -133,10 +135,10 @@ export default function Contact() {
         <div className="space-y-6">
           {/* Direct channels card */}
           <div className="bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-gray-200/50 dark:border-zinc-850 shadow-2xs space-y-4">
-            <div className="flex items-center space-x-2.5 pb-2 border-b border-gray-100 dark:border-zinc-900">
+            <div className="flex items-center space-x-2.5 rtl:space-x-reverse pb-2 border-b border-gray-100 dark:border-zinc-900">
               <MessageCircle size={16} className="text-apple-blue" />
               <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500">
-                Direct Channels
+                {t("contact_direct_title")}
               </h3>
             </div>
 
@@ -146,7 +148,7 @@ export default function Contact() {
                   key={channel.id} 
                   className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 bg-gray-50/50 dark:bg-zinc-900/20 rounded-xl border border-gray-100/70 dark:border-zinc-850/50 gap-3"
                 >
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 rtl:space-x-reverse text-left rtl:text-right">
                     <span className={`w-8 h-8 rounded-full flex items-center justify-center border shadow-3xs shrink-0 ${channel.colorClass}`}>
                       {channel.icon}
                     </span>
@@ -156,7 +158,7 @@ export default function Contact() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-2 self-end sm:self-auto">
+                  <div className="flex items-center space-x-2 rtl:space-x-reverse self-end sm:self-auto">
                     {channel.url && (
                       <a
                         href={channel.url}
@@ -170,7 +172,7 @@ export default function Contact() {
                     
                     <button
                       onClick={() => handleCopyText(channel.id, channel.handle)}
-                      className={`px-3 py-1.5 font-bold text-[10px] rounded-lg transition-all cursor-pointer flex items-center space-x-1 ${
+                      className={`px-3 py-1.5 font-bold text-[10px] rounded-lg transition-all cursor-pointer flex items-center space-x-1 rtl:space-x-reverse ${
                         copiedStates[channel.id]
                           ? "bg-emerald-500 text-white border-transparent"
                           : "bg-white hover:bg-gray-100 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 border border-gray-200 dark:border-zinc-850"
@@ -179,12 +181,12 @@ export default function Contact() {
                       {copiedStates[channel.id] ? (
                         <>
                           <Check size={10} />
-                          <span>Copied</span>
+                          <span>{t("action_copied")}</span>
                         </>
                       ) : (
                         <>
                           <Copy size={10} />
-                          <span>Copy</span>
+                          <span>{t("action_copy")}</span>
                         </>
                       )}
                     </button>
@@ -196,10 +198,10 @@ export default function Contact() {
 
           {/* Social Media Profiles Card */}
           <div className="bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-gray-200/50 dark:border-zinc-850 shadow-2xs space-y-4">
-            <div className="flex items-center space-x-2.5 pb-2 border-b border-gray-100 dark:border-zinc-900">
-              <Globe size={16} className="text-apple-blue" />
+            <div className="flex items-center space-x-2.5 rtl:space-x-reverse pb-2 border-b border-gray-100 dark:border-zinc-900">
+              <Globe size={16} className="text-apple-blue animate-none" />
               <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500">
-                Social Media Profiles
+                {t("contact_social_title")}
               </h3>
             </div>
 
@@ -209,12 +211,12 @@ export default function Contact() {
                   key={social.id} 
                   className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 bg-gray-50/50 dark:bg-zinc-900/20 rounded-xl border border-gray-100/70 dark:border-zinc-850/50 gap-3 hover:border-gray-200 dark:hover:border-zinc-800 transition-colors"
                 >
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 rtl:space-x-reverse text-left rtl:text-right">
                     <span className={`w-8 h-8 rounded-full flex items-center justify-center border shadow-3xs shrink-0 ${social.colorClass}`}>
                       {social.icon}
                     </span>
                     <div>
-                      <div className="flex items-center space-x-1.5">
+                      <div className="flex items-center space-x-1.5 rtl:space-x-reverse">
                         <h4 className="text-xs font-bold text-gray-900 dark:text-gray-100">{social.profileName}</h4>
                         <span className="text-[10px] text-gray-400 dark:text-zinc-500 font-normal">({social.name})</span>
                       </div>
@@ -222,19 +224,19 @@ export default function Contact() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-2 self-end sm:self-auto">
+                  <div className="flex items-center space-x-2 rtl:space-x-reverse self-end sm:self-auto">
                     <a
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-3 py-1.5 bg-gray-950 hover:bg-black text-white dark:bg-zinc-900 dark:hover:bg-zinc-850 dark:text-zinc-100 border border-gray-200 dark:border-zinc-850 font-bold text-[10px] rounded-lg transition-all"
                     >
-                      Visit
+                      {t("action_visit")}
                     </a>
                     
                     <button
                       onClick={() => handleCopyText(social.id, social.handle)}
-                      className={`px-3 py-1.5 font-bold text-[10px] rounded-lg transition-all cursor-pointer flex items-center space-x-1 ${
+                      className={`px-3 py-1.5 font-bold text-[10px] rounded-lg transition-all cursor-pointer flex items-center space-x-1 rtl:space-x-reverse ${
                         copiedStates[social.id]
                           ? "bg-emerald-500 text-white border-transparent"
                           : "bg-white hover:bg-gray-100 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 border border-gray-200 dark:border-zinc-850"
@@ -243,12 +245,12 @@ export default function Contact() {
                       {copiedStates[social.id] ? (
                         <>
                           <Check size={10} />
-                          <span>Copied</span>
+                          <span>{t("action_copied")}</span>
                         </>
                       ) : (
                         <>
                           <Copy size={10} />
-                          <span>Copy</span>
+                          <span>{t("action_copy")}</span>
                         </>
                       )}
                     </button>
@@ -260,15 +262,15 @@ export default function Contact() {
 
           {/* Privacy first scratchpad for communications */}
           <div className="bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-gray-200/50 dark:border-zinc-850 shadow-2xs space-y-4">
-            <div className="flex items-center space-x-2.5 pb-2 border-b border-gray-100 dark:border-zinc-900">
-              <MessageSquare size={16} className="text-apple-blue" />
+            <div className="flex items-center space-x-2.5 rtl:space-x-reverse pb-2 border-b border-gray-100 dark:border-zinc-900">
+              <MessageSquare size={16} className="text-apple-blue shrink-0" />
               <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-zinc-500">
-                Contact Draft Notepad
+                {t("contact_notepad_title")}
               </h3>
             </div>
 
-            <p className="text-[11px] text-gray-400 dark:text-zinc-500 leading-relaxed">
-              This website has no cookies, trackers, or databases. To keep your information completely private, you can write your message below, copy it to your clipboard, and send it directly via other channels!
+            <p className="text-[11px] text-gray-400 dark:text-zinc-500 leading-relaxed text-left rtl:text-right">
+              {t("contact_notepad_desc")}
             </p>
 
             <div className="space-y-2">
@@ -276,21 +278,21 @@ export default function Contact() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={4}
-                className="w-full bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-850 rounded-xl p-3 text-xs focus:outline-hidden focus:border-apple-blue dark:text-zinc-200 font-sans"
-                placeholder="Hi Arya, I checked out your portfolio and would love to connect about..."
+                className="w-full bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-850 rounded-xl p-3 text-xs focus:outline-hidden focus:border-apple-blue dark:text-zinc-200 font-sans text-left rtl:text-right"
+                placeholder={t("contact_notepad_placeholder")}
               />
 
               <div className="flex items-center justify-between">
                 {/* Security Badge */}
-                <div className="flex items-center space-x-1.5 text-[9px] text-gray-400 dark:text-zinc-500 font-mono">
+                <div className="flex items-center space-x-1.5 rtl:space-x-reverse text-[9px] text-gray-400 dark:text-zinc-500 font-mono">
                   <ShieldAlert size={10} />
-                  <span>Offline client-safe scratchpad</span>
+                  <span>{t("contact_notepad_security")}</span>
                 </div>
 
                 <button
                   onClick={handleCopyMessage}
                   disabled={!message.trim()}
-                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center space-x-1.5 transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center space-x-1.5 rtl:space-x-reverse transition-all cursor-pointer ${
                     !message.trim()
                       ? "bg-gray-100 dark:bg-zinc-900 text-gray-400 dark:text-zinc-600 cursor-not-allowed"
                       : "bg-apple-blue/10 hover:bg-apple-blue/15 text-apple-blue"
@@ -300,12 +302,12 @@ export default function Contact() {
                   {draftCopied ? (
                     <>
                       <Check size={12} />
-                      <span>Copied!</span>
+                      <span>{t("contact_notepad_copied")}</span>
                     </>
                   ) : (
                     <>
                       <Copy size={12} />
-                      <span>Copy Draft</span>
+                      <span>{t("contact_notepad_copy")}</span>
                     </>
                   )}
                 </button>
