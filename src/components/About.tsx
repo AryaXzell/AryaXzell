@@ -39,6 +39,9 @@ export default function About() {
             src="https://github.com/AryaXzell.png"
             alt="Arya"
             referrerPolicy="no-referrer"
+            width={64}
+            height={64}
+            loading="lazy"
             className="w-16 h-16 rounded-full border-2 border-gray-200/80 dark:border-zinc-800 shadow-md shrink-0"
           />
           <div className="space-y-1.5">
