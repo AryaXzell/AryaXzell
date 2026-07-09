@@ -63,8 +63,16 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
         }
       }}
     >
-      {/* Visual mini-preview container with browser-frame mockup */}
-      <div className="p-4 bg-gray-50 dark:bg-zinc-900/30 border-b border-gray-100 dark:border-zinc-900 flex-1 min-h-[250px] flex flex-col justify-center relative">
+      {/* Visual mini-preview container with browser-frame mockup.
+          This is a decorative simulated screenshot, not real functional UI —
+          hidden from accessibility tree and non-interactive so it doesn't
+          trap focus/keyboard nav meant for the parent card, and so its
+          intentionally tiny mockup-scale text isn't flagged by a11y audits. */}
+      <div
+        className="p-4 bg-gray-50 dark:bg-zinc-900/30 border-b border-gray-100 dark:border-zinc-900 flex-1 min-h-[250px] flex flex-col justify-center relative pointer-events-none select-none"
+        aria-hidden="true"
+        {...({ inert: "" } as any)}
+      >
         {renderMockup()}
         
         {/* Subtle overlay hint */}
@@ -104,7 +112,7 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
               <span>{project.name}</span>
               <ArrowUpRight size={16} className="ml-1 rtl:mr-1 rtl:ml-0 rtl:rotate-270 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5 transition-all" />
             </h3>
-            <p className="text-xs font-semibold text-gray-400 dark:text-zinc-500">
+            <p className="text-xs font-semibold text-gray-500 dark:text-zinc-400">
               {project.tagline}
             </p>
           </div>
