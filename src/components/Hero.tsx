@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowDown, Github, Clock, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import { useLanguage } from "../LanguageContext";
@@ -35,22 +35,36 @@ export default function Hero({ onViewProjects }: HeroProps) {
   const [timeString, setTimeString] = useState("");
   const [greeting, setGreeting] = useState("Hello");
   const { language, t } = useLanguage();
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const heroEl = document.getElementById("hero");
-      if (heroEl) {
-        const rect = heroEl.getBoundingClientRect();
-        setMousePos({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
+    let rafId: number | null = null;
+    let pendingX = 0;
+    let pendingY = 0;
+
+    const applyGlow = () => {
+      rafId = null;
+      if (glowRef.current) {
+        glowRef.current.style.background = `radial-gradient(550px circle at ${pendingX}px ${pendingY}px, rgba(0, 113, 227, 0.07) 0%, rgba(168, 85, 247, 0.03) 40%, transparent 80%)`;
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    const handleMouseMove = (e: MouseEvent) => {
+      const heroEl = document.getElementById("hero");
+      if (!heroEl) return;
+      const rect = heroEl.getBoundingClientRect();
+      pendingX = e.clientX - rect.left;
+      pendingY = e.clientY - rect.top;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(applyGlow);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   useEffect(() => {
@@ -131,10 +145,8 @@ export default function Hero({ onViewProjects }: HeroProps) {
         
         {/* Interactive Mouse follow glow - extremely premium */}
         <div 
+          ref={glowRef}
           className="absolute inset-0 transition-opacity duration-500 opacity-100 dark:opacity-80"
-          style={{
-            background: `radial-gradient(550px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 113, 227, 0.07) 0%, rgba(168, 85, 247, 0.03) 40%, transparent 80%)`
-          }}
         />
 
         {/* Floating micro-particles */}
@@ -190,6 +202,9 @@ export default function Hero({ onViewProjects }: HeroProps) {
             src="https://github.com/AryaXzell.png"
             alt="AryaXzell avatar"
             referrerPolicy="no-referrer"
+            width={112}
+            height={112}
+            fetchPriority="high"
             onError={(e) => {
               e.currentTarget.src = `https://api.dicebear.com/7.x/bottts/svg?seed=AryaXzell`;
             }}
