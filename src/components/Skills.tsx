@@ -1,24 +1,27 @@
 import { BookOpen, Codepen, Compass, Sliders, ShieldAlert } from "lucide-react";
+import { useLanguage } from "../LanguageContext";
 
 export default function Skills() {
+  const { t } = useLanguage();
+
   const skillCategories = [
     {
-      title: "Languages",
+      title: t("skills_cat_languages"),
       icon: <Codepen size={14} className="text-apple-blue" />,
       skills: ["TypeScript", "JavaScript", "HTML / CSS"],
     },
     {
-      title: "Frameworks & Build",
+      title: t("skills_cat_frameworks"),
       icon: <Sliders size={14} className="text-apple-blue" />,
       skills: ["React 19", "Vite", "Tailwind CSS"],
     },
     {
-      title: "Libraries & APIs",
+      title: t("skills_cat_libraries"),
       icon: <BookOpen size={14} className="text-apple-blue" />,
       skills: ["GitHub API", "JSZip", "Leaflet Maps", "Service Workers"],
     },
     {
-      title: "Design & Practices",
+      title: t("skills_cat_practices"),
       icon: <Compass size={14} className="text-apple-blue" />,
       skills: ["a11y (WCAG)", "UI/UX Design", "Responsive Layouts"],
     },
@@ -33,16 +36,16 @@ export default function Skills() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Heading (3 cols) */}
-          <div className="md:col-span-4 space-y-3">
-            <div className="inline-flex items-center space-x-1.5 px-2 py-0.5 text-[10px] font-bold bg-apple-blue/5 text-apple-blue dark:bg-apple-blue/10 dark:text-blue-400 rounded">
+          <div className="md:col-span-4 space-y-3 text-center md:text-left rtl:md:text-right">
+            <div className="inline-flex items-center space-x-1.5 rtl:space-x-reverse px-2 py-0.5 text-[10px] font-bold bg-apple-blue/5 text-apple-blue dark:bg-apple-blue/10 dark:text-blue-400 rounded">
               <ShieldAlert size={10} />
-              <span>Competencies</span>
+              <span>{t("skills_badge")}</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              Skills & Stack
+              {t("skills_title")}
             </h2>
-            <p className="text-xs text-gray-500 dark:text-zinc-400 leading-relaxed max-w-xs">
-              A highly-focused frontend stack engineered around performance, responsiveness, and clean client-side utility.
+            <p className="text-xs text-gray-500 dark:text-zinc-400 leading-relaxed max-w-xs mx-auto md:mx-0">
+              {t("skills_desc")}
             </p>
             <div className="h-0.5 w-8 bg-apple-blue rounded-full hidden md:block" />
           </div>
@@ -56,8 +59,8 @@ export default function Skills() {
                   className="flex flex-col sm:flex-row sm:items-center justify-between py-2.5 border-b border-gray-100 dark:border-zinc-900/50 last:border-0 last:pb-0 first:pt-0"
                 >
                   {/* Category Header */}
-                  <div className="flex items-center space-x-2 pb-1.5 sm:pb-0 sm:w-1/3 shrink-0">
-                    <span className="w-6 h-6 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center border border-gray-100 dark:border-zinc-800 shadow-3xs">
+                  <div className="flex items-center space-x-2 rtl:space-x-reverse pb-1.5 sm:pb-0 sm:w-1/3 shrink-0 text-left rtl:text-right">
+                    <span className="w-6 h-6 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center border border-gray-100 dark:border-zinc-800 shadow-3xs shrink-0">
                       {category.icon}
                     </span>
                     <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-zinc-500">
