@@ -140,6 +140,7 @@ export const translations: Record<Language, Record<string, any>> = {
     // Contact
     contact_badge: "Communications",
     contact_title: "Get in Touch",
+    contact_subtitle: "How to reach me, in any way that suits you.",
     contact_desc: "Let's connect! You can reach me instantly via direct channels, browse my social media profiles, or send me a secure message directly through my local clipboard draft drawer.",
     contact_channels_title: "Direct Channels",
     contact_socials_title: "Social Media Profiles",
@@ -329,6 +330,7 @@ export const translations: Record<Language, Record<string, any>> = {
     // Contact
     contact_badge: "Komunikasi",
     contact_title: "Hubungi Saya",
+    contact_subtitle: "Cara menghubungi saya, dengan cara apa pun yang cocok untukmu.",
     contact_desc: "Mari terhubung! Anda dapat menghubungi saya secara instan melalui saluran langsung, menelusuri profil media sosial saya, atau mengirim draf pesan aman langsung melalui laci draf clipboard lokal saya.",
     contact_channels_title: "Saluran Langsung",
     contact_socials_title: "Profil Media Sosial",
@@ -518,6 +520,7 @@ export const translations: Record<Language, Record<string, any>> = {
     // Contact
     contact_badge: "Коммуникации",
     contact_title: "Связаться со мной",
+    contact_subtitle: "Как связаться со мной — любым удобным способом.",
     contact_desc: "Давайте общаться! Вы можете мгновенно связаться со мной через прямые каналы, изучить мои профили в социальных сетях или составить безопасный черновик сообщения прямо во встроенном локальном буфере.",
     contact_channels_title: "Прямые каналы",
     contact_socials_title: "Профили в соцсетях",
@@ -707,6 +710,7 @@ export const translations: Record<Language, Record<string, any>> = {
     // Contact
     contact_badge: "الاتصالات",
     contact_title: "تواصل معي",
+    contact_subtitle: "كيفية التواصل معي، بأي طريقة تناسبك.",
     contact_desc: "دعنا نتواصل! يمكنك الوصول إليّ فورًا عبر القنوات المباشرة، أو تصفح حساباتي الاجتماعية، أو صياغة مسودة رسالة آمنة ومحلية ونسخها بلمسة واحدة.",
     contact_channels_title: "القنوات المباشرة",
     contact_socials_title: "حسابات التواصل الاجتماعي",
@@ -896,6 +900,7 @@ export const translations: Record<Language, Record<string, any>> = {
     // Contact
     contact_badge: "Comunicaciones",
     contact_title: "Ponte en Contacto",
+    contact_subtitle: "Cómo contactarme, de la forma que prefieras.",
     contact_desc: "¡Conectemos! Puedes contactarme instantáneamente a través de canales directos, explorar mis redes sociales o crear un borrador de mensaje seguro para copiar y enviar.",
     contact_channels_title: "Canales Directos",
     contact_socials_title: "Perfiles Sociales",
@@ -1070,6 +1075,7 @@ export const translations: Record<Language, Record<string, any>> = {
     // Contact
     contact_badge: "連絡窓口",
     contact_title: "お気軽にご連絡ください",
+    contact_subtitle: "お好きな方法で、お気軽にご連絡ください。",
     contact_desc: "気軽に繋がることができます。直接の連絡チャンネルから瞬時にアクセスしたり、SNSプロファイルを閲覧したり、ローカルの安全なメッセージドラフトツールを利用できます。",
     contact_channels_title: "直接のアドレス",
     contact_socials_title: "ソーシャルメディアプロファイル",
